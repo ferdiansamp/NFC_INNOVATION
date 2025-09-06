@@ -1,13 +1,11 @@
-services:
-  backend:
-    build:
-      path: Backend
-      language: node
-    run:
-      command: npm start dev
-  frontend:
-    build:
-      path: frontend
-      language: node
-    run:
-      command: npm start
+
+
+[services.backend]
+path = "Backend"
+language = "node"
+start = "npm start"
+
+[services.frontend]
+path = "frontend"
+language = "staticfile"
+build = "npm install && npm run build"

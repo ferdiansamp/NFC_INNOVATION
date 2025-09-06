@@ -11,12 +11,12 @@ import { fileURLToPath } from "url";
 // __dirname workaround in ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = Path.dirname(__filename);
+const frontendBuild = Path.join(__dirname, "../frontend/build");
 
 app.use(express.json());
-app.use(express.static(Path.join(__dirname, "frontend", "build")));
-
-app.get("/", (req, res) => {
-  res.sendFile(Path.join(__dirname, "frontend", "build", "index.html"));
+app.use(express.static(frontendBuild));
+app.use((req, res, next) => {
+  res.sendFile(Path.join(frontendBuild, "index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
