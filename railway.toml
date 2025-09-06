@@ -1,5 +1,7 @@
 [build]
-root = "Backend"
+builder = "NIXPACKS"
 
-[deploy]
+[services.backend]
+path = "Backend"
 start = "npm start"
+language = "node"
