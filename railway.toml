@@ -1,7 +1,5 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "npm install"
-path = "Backend"
 
 [start]
-command = ""
+cmd = "npm start"
