@@ -1,9 +1,7 @@
 [build]
 builder = "NIXPACKS"
-root = "Backend"
+buildCommand = "npm install"
+path = "Backend"
 
 [start]
-cmd = "npm start"
-
-[nixpacks]
-nodejs_version = "18"
+command = "npm start"
