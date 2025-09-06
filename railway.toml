@@ -4,4 +4,4 @@ builder = "NIXPACKS"
 [services.backend]
 path = "Backend"
 start = "node server.js"
-language = "node"
+
