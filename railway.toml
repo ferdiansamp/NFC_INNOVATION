@@ -4,4 +4,4 @@ buildCommand = "npm install"
 path = "Backend"
 
 [start]
-command = "npm start"
+command = ""

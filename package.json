@@ -1,0 +1,8 @@
+{
+  "name": "kai-root",
+  "private": true,
+  "scripts": {
+    "start": "cd Backend && npm start",
+    "install": "cd Backend && npm install"
+  }
+}
