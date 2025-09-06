@@ -16,9 +16,10 @@ const frontendBuild = Path.join(__dirname, "../frontend/build");
 app.use(express.json());
 app.use(express.static(frontendBuild));
 app.get('*', (req, res) => {
-  console.log("Serving React app for path:", req.params.path);
-  res.sendFile(Path.resolve(frontendBuild, "index.html"));
+  console.log("Serving React app for path:", req.url); // bisa lihat URL yang diakses
+  res.sendFile(Path.join(frontendBuild, "index.html"));
 });
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
