@@ -1,5 +1,7 @@
 [build]
 builder = "NIXPACKS"
 
-[start]
-cmd = "npm start"
+[services.backend]
+path = "Backend"
+start = "npm start"
+language = "node"
