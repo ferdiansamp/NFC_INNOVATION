@@ -1,14 +1,18 @@
 import express from "express";
 import mysql from "mysql2";
 import env from "dotenv";
+env.config();
 
 const DB = mysql.createPool({
-  host: process.env.DW_HOST || "localhost",
+  host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "client",
   password: process.env.DB_PASSWORD || "1",
   database: process.env.DB_NAME || "KAI",
   port: process.env.DB_PORT || 3306,
   waitForConnections: true,
+  ssl: {
+    rejectUnauthorized: false // Aktif kalau Railway perlu SSL
+  },
   connectionLimit: 10,
   queueLimit: 0,
 });
