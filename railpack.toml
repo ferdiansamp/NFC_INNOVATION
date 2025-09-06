@@ -1,0 +1,9 @@
+[services.backend]
+path = "Backend"
+language = "node"
+start = "npm install && npm start"
+
+[services.frontend]
+path = "frontend"
+language = "node"
+start = "npm install && npm run build && serve -s build"
