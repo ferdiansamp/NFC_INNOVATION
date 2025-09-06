@@ -1,9 +1,5 @@
-[services.backend]
-path = "Backend"
-start = "npm install && npm start"
-language = "node"
+[build]
+root = "Backend"
 
-[services.frontend]
-path = "frontend"
-start = "npm install && npm run build && npx serve -s build"
-language = "node"
+[deploy]
+start = "npm start"
