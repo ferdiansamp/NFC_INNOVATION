@@ -3,8 +3,7 @@ import mysql from "mysql2";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Kalau ada env dari Railway → pakai itu
-// Kalau tidak ada (di lokal) → pakai env manual dari .env
+
 const DB = mysql.createPool({
   host:  process.env.DB_HOST ,
   user:process.env.DB_USER ,
@@ -15,6 +14,7 @@ const DB = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
 });
+
 
 // Test koneksi
 DB.getConnection((err, conn) => {
