@@ -1,5 +1,6 @@
 [build]
 builder = "NIXPACKS"
+root = "Backend"
 
 [start]
-cmd = "node server.js"
+cmd = "npm start"
