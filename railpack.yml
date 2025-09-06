@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      path: Backend
+      language: node
+    run:
+      command: npm start dev
+  frontend:
+    build:
+      path: frontend
+      language: node
+    run:
+      command: npm start
