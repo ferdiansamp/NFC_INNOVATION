@@ -3,8 +3,9 @@ import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Header from "./Header";
+import DataPelanggan from "./DataPelanggan";
 
-// import Test from './Test';
+
 
 export default function App() {
   const GlobalStyle = createGlobalStyle`
@@ -78,14 +79,15 @@ body{
             )}
           </div>
         </DataPenumpang>
+        <DataPelanggan />
         <TombolKereta>
 
-          
               <Link to="/kereta">
                 <button>KERETA</button>
               </Link>
-         
-          
+                 <Link to="/kereta">
+                <button>KERETA</button>
+              </Link>
         </TombolKereta>
       </div>
     </>

@@ -15,11 +15,11 @@ router.get("/", (req, res) => {
 });
 
 /**
- * GET penumpang berdasarkan Id_penumpang
+ * GET penumpang berdasarkan Id_pelanggan
  */
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  const sql = "SELECT * FROM data_penumpang WHERE Id_penumpang = ?";
+  const sql = "SELECT * FROM data_pelanggan WHERE Id_pelanggan = ?";
   DB.query(sql, [id], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     if (results.length === 0) return res.status(404).json({ message: "Penumpang tidak ditemukan" });
@@ -28,19 +28,37 @@ router.get("/:id", (req, res) => {
 });
 
 /**
- * POST / tambahkan penumpang baru
+ * POST / → tambahkan penumpang baru
  */
 router.post("/", (req, res) => {
-  const { Id_pelanggan, nama, Tipe_ID, No_ID, Jenis_Kelamin, Kategori } = req.body;
+  const {
+    nama,
+    no_hp,
+    Email,
+    Tipe_ID,
+    No_ID,
+    Jenis_Kelamin,
+    Tanggal_Lahir,
+    Alamat,
+    Kota_Kabupaten,
+    Hobi,
+    Pekerjaan
+  } = req.body;
 
-  const sql = `INSERT INTO data_penumpang 
-    (Id_pelanggan, nama, Tipe_ID, No_ID, Jenis_Kelamin, Kategori)
-    VALUES (?, ?, ?, ?, ?, ?)`;
+  const sql = `
+    INSERT INTO data_pelanggan 
+      (nama, no_hp, Email, Tipe_ID, No_ID, Jenis_Kelamin, Tanggal_Lahir, Alamat, Kota_Kabupaten, Hobi, Pekerjaan)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
 
-  DB.query(sql, [Id_pelanggan, nama, Tipe_ID, No_ID, Jenis_Kelamin, Kategori], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ message: "Berhasil menambahkan penumpang", Id_penumpang: result.insertId });
-  });
+  DB.query(
+    sql,
+    [nama, no_hp, Email, Tipe_ID, No_ID, Jenis_Kelamin, Tanggal_Lahir, Alamat, Kota_Kabupaten, Hobi, Pekerjaan],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ message: "Berhasil menambahkan penumpang", Id_pelanggan: result.insertId });
+    }
+  );
 });
 
 /**
@@ -48,17 +66,37 @@ router.post("/", (req, res) => {
  */
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const { Id_pelanggan, nama, Tipe_ID, No_ID, Jenis_Kelamin, Kategori } = req.body;
+  const {
+    nama,
+    no_hp,
+    Email,
+    Tipe_ID,
+    No_ID,
+    Jenis_Kelamin,
+    Tanggal_Lahir,
+    Alamat,
+    Kota_Kabupaten,
+    Hobi,
+    Pekerjaan
+  } = req.body;
 
-  const sql = `UPDATE data_penumpang SET 
-    Id_pelanggan = ?, nama = ?, Tipe_ID = ?, No_ID = ?, Jenis_Kelamin = ?, Kategori = ?
-    WHERE Id_penumpang = ?`;
+  const sql = `
+    UPDATE data_pelanggan SET 
+      nama = ?, no_hp = ?, Email = ?, Tipe_ID = ?, No_ID = ?, Jenis_Kelamin = ?, 
+      Tanggal_Lahir = ?, Alamat = ?, Kota_Kabupaten = ?, Hobi = ?, Pekerjaan = ?
+    WHERE Id_pelanggan = ?
+  `;
 
-  DB.query(sql, [Id_pelanggan, nama, Tipe_ID, No_ID, Jenis_Kelamin, Kategori, id], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    if (result.affectedRows === 0) return res.status(404).json({ message: "Penumpang tidak ditemukan" });
-    res.json({ message: "Berhasil update penumpang" });
-  });
+  DB.query(
+    sql,
+    [nama, no_hp, Email, Tipe_ID, No_ID, Jenis_Kelamin, Tanggal_Lahir, Alamat, Kota_Kabupaten, Hobi, Pekerjaan, id],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+      if (result.affectedRows === 0)
+        return res.status(404).json({ message: "Penumpang tidak ditemukan" });
+      res.json({ message: "Berhasil update penumpang" });
+    }
+  );
 });
 
 /**
@@ -66,10 +104,11 @@ router.put("/:id", (req, res) => {
  */
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  const sql = "DELETE FROM data_penumpang WHERE Id_penumpang = ?";
+  const sql = "DELETE FROM data_pelanggan WHERE Id_pelanggan = ?";
   DB.query(sql, [id], (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
-    if (result.affectedRows === 0) return res.status(404).json({ message: "Penumpang tidak ditemukan" });
+    if (result.affectedRows === 0)
+      return res.status(404).json({ message: "Penumpang tidak ditemukan" });
     res.json({ message: "Berhasil menghapus penumpang" });
   });
 });

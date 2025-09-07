@@ -1,10 +1,12 @@
 import dotenv from "dotenv";
 dotenv.config();
+import cors from "cors";
+
 import "./Route/DatabaseConnection.js";
 import express from "express";
 import penumpangRoutes from "./Route/Penumpang.js";
 import pelangganRoutes from "./Route/Pelanggan.js";
-import tiketRoutes from "./Route/Tiket.js";
+// import tiketRoutes from "./Route/Tiket.js";
 
 import Path from "path";
 import { fileURLToPath } from "url";
@@ -15,6 +17,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = Path.dirname(__filename);
 const frontendBuild = Path.join(__dirname, "../frontend/build");
 
+app.use(cors());
+
+app.use("/api/penumpang", penumpangRoutes);
+app.use("/api/pelanggan", pelangganRoutes);
+// app.use("/api/tiket", tiketRoutes);
+
 app.use(express.json());
 app.use(express.static(frontendBuild));
 app.get('*', (req, res) => {
@@ -22,9 +30,7 @@ app.get('*', (req, res) => {
   res.sendFile(Path.join(frontendBuild, "index.html"));
 });
 
-app.use("/api/penumpang", penumpangRoutes);
-app.use("/api/pelanggan", pelangganRoutes);
-app.use("/api/tiket", tiketRoutes);
+
 
 
 const PORT = process.env.PORT || 5000;
