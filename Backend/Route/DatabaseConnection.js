@@ -16,13 +16,12 @@ const DB = mysql.createPool({
 });
 
 
-// Test koneksi
 DB.getConnection((err, conn) => {
   if (err) {
     console.error("❌ Gagal konek DB:", err.message);
     process.exit(1);
   } else {
-    console.log("✅ Berhasil konek ke database!");
+    console.log("✅ Berhasil konek ke database:", conn.config.database);
     conn.release();
   }
 });
