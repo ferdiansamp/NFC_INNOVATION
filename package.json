@@ -2,7 +2,7 @@
   "name": "kai-root",
   "private": true,
   "scripts": {
-    "start": "cd Backend && npm start",
-    "install": "cd Backend && npm install"
+    "install": "cd Backend && npm install && cd ../frontend && npm install && npm run build",
+    "start": "cd Backend && npm start"
   }
 }
