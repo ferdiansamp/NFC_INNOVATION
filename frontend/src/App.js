@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import DataPelanggan from "./DataPelanggan";
+import DataPenumpang from "./DataPenumpang";
 
 
 
@@ -18,16 +19,7 @@ body{
 `;
 
  
-  const DataPenumpang = styled.div`
-    .coba {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 30px;
-    }
-  `;
+ 
   const TombolKereta = styled.div`
     position: absolute;
     bottom: 10%;
@@ -44,41 +36,14 @@ body{
     }
   `;
 
-  const [penumpang] = useState([
-    {
-      nama: "BUDI UMAR PRAKOSO WIJAYA BANGUN",
-      umur: 25,
-      kelas: "Eksekutif",
-      kursi: "A1",
-    },
-    { nama: "Ani", umur: 30, kelas: "Bisnis", kursi: "B2" },
-    { nama: "Candra", umur: 28, kelas: "Ekonomi", kursi: "C3" },
-    { nama: "Dewi", umur: 32, kelas: "Ekonomi", kursi: "D4" },
-  ]);
-
+ 
   return (
     <>
       <GlobalStyle />
       <div>
         <Header />
+        <DataPenumpang />
 
-        <DataPenumpang>
-          <div className="coba">
-            <h3>DATA PENUMPANG</h3>
-            {penumpang.length > 0 ? (
-              <div>
-                {penumpang.map((p, i) => (
-                  <p key={i}>
-                    {p.nama} | Umur: {p.umur} | Kelas: {p.kelas} | Kursi:{" "}
-                    {p.kursi}
-                  </p>
-                ))}
-              </div>
-            ) : (
-              <p>DATA MASIH KOSONG</p>
-            )}
-          </div>
-        </DataPenumpang>
         <DataPelanggan />
         <TombolKereta>
 
