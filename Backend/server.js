@@ -2,7 +2,9 @@ import dotenv from "dotenv";
 dotenv.config();
 import "./Route/DatabaseConnection.js";
 import express from "express";
-
+import penumpangRoutes from "./Route/Penumpang.js";
+import pelangganRoutes from "./Route/Pelanggan.js";
+import tiketRoutes from "./Route/Tiket.js";
 
 import Path from "path";
 import { fileURLToPath } from "url";
@@ -19,6 +21,10 @@ app.get('*', (req, res) => {
   console.log("Serving React app for path:", req.url); // bisa lihat URL yang diakses
   res.sendFile(Path.join(frontendBuild, "index.html"));
 });
+
+app.use("/api/penumpang", penumpangRoutes);
+app.use("/api/pelanggan", pelangganRoutes);
+app.use("/api/tiket", tiketRoutes);
 
 
 const PORT = process.env.PORT || 5000;
