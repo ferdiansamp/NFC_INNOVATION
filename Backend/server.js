@@ -6,7 +6,9 @@ import "./Route/DatabaseConnection.js";
 import express from "express";
 import penumpangRoutes from "./Route/Penumpang.js";
 import pelangganRoutes from "./Route/Pelanggan.js";
-// import tiketRoutes from "./Route/Tiket.js";
+import "./Route/NFC.js";
+import Tiket from "./Route/Tiket.js";
+
 
 import Path from "path";
 import { fileURLToPath } from "url";
@@ -21,7 +23,9 @@ app.use(cors());
 
 app.use("/api/penumpang", penumpangRoutes);
 app.use("/api/pelanggan", pelangganRoutes);
-// app.use("/api/tiket", tiketRoutes);
+// app.use("/api/nfc", NFC_routes);
+app.use("/api/tiket", Tiket);
+
 
 app.use(express.json());
 app.use(express.static(frontendBuild));

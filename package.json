@@ -6,6 +6,9 @@
     "start": "cd Backend && npm start"
   },
   "dependencies": {
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "nfc-pcsc": "^0.8.1",
+    "node-fetch": "^3.3.2",
+    "pcsclite": "^1.0.1"
   }
 }

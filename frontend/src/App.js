@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import DataPelanggan from "./DataPelanggan";
 import DataPenumpang from "./DataPenumpang";
+import TiketViewer from "./Tiket";
 
 
 
@@ -43,6 +44,7 @@ body{
       <div>
         <Header />
         <DataPenumpang />
+          <TiketViewer />
 
         <DataPelanggan />
         <TombolKereta>
