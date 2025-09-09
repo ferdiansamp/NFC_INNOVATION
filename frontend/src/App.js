@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import DataPelanggan from "./DataPelanggan";
 import DataPenumpang from "./DataPenumpang";
-import TiketViewer from "./Tiket";
+import TiketViewer from "./front_Tiket";
 
 
 

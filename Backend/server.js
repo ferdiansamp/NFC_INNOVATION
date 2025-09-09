@@ -23,7 +23,6 @@ app.use(cors());
 
 app.use("/api/penumpang", penumpangRoutes);
 app.use("/api/pelanggan", pelangganRoutes);
-// app.use("/api/nfc", NFC_routes);
 app.use("/api/tiket", Tiket);
 
 app.use(express.json());
