@@ -32,5 +32,9 @@
     "react-is": "^18.3.1",
     "styled-components": "^6.1.19"
   },
-  "description": ""
+  "description": "",
+  "optionalDependencies": {
+  "@pokusew/pcsclite": "^0.6.0"
+}
+
 }
