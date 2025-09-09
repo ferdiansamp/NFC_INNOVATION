@@ -1,56 +1,75 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const TiketViewer = ({ uid }) => {
-  const [tiket, setTiket] = useState([]);
+function App() {
+  const [tiket, setTiket] = useState(null);
 
   useEffect(() => {
-    if (!uid) return;
+    // Koneksi ke backend websocket (ubah port sesuai backend server.js)
+    const ws = new WebSocket("ws://localhost:5000");
 
-    fetch("https://nfcinnovation-production.up.railway.app/api/tiket/scan", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ uid }),
-    })
-      .then(res => res.json())
-      .then(data => setTiket(data.tiket))
-      .catch(err => console.error(err));
-  }, [uid]);
+    ws.onopen = () => {
+      console.log("🔗 Terhubung ke WebSocket backend");
+    };
+
+    ws.onmessage = (event) => {
+      console.log("📩 Data tiket diterima:", event.data);
+      const data = JSON.parse(event.data);
+      setTiket(data);
+    };
+
+    ws.onerror = (err) => {
+      console.error("⚠️ WebSocket error:", err);
+    };
+
+    ws.onclose = () => {
+      console.log("❌ WebSocket terputus");
+    };
+
+    return () => ws.close();
+  }, []);
 
   return (
-    <div>
-      <h2>Data Tiket & Penumpang</h2>
-      <table border="1" cellPadding="5">
-        <thead>
-          <tr>
-            <th>Id Tiket</th>
-            <th>Kode Pemesanan</th>
-            <th>Kursi</th>
-            <th>Id Penumpang</th>
-            <th>Nama</th>
-            <th>Tipe_ID</th>
-            <th>No_ID</th>
-            <th>Jenis Kelamin</th>
-            <th>Kategori</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tiket.map(t => (
-            <tr key={t.Id_Tiket}>
-              <td>{t.Id_Tiket}</td>
-              <td>{t.Kode_Pemesanan}</td>
-              <td>{t.Kursi}</td>
-              <td>{t.Id_penumpang}</td>
-              <td>{t.nama}</td>
-              <td>{t.Tipe_ID}</td>
-              <td>{t.No_ID}</td>
-              <td>{t.Jenis_Kelamin}</td>
-              <td>{t.Kategori}</td>
-            </tr>
+    <div style={{ padding: "20px" }}>
+      <h1>🚄 Sistem Tiket NFC</h1>
+      {tiket ? (
+        <div>
+          <h2>Data Tiket</h2>
+          {tiket.tiket.map((row, i) => (
+            <div
+              key={i}
+              style={{
+                marginBottom: "15px",
+                padding: "10px",
+                border: "1px solid #ccc",
+              }}
+            >
+              <p>
+                <strong>Kode Pemesanan:</strong> {row.Kode_Pemesanan}
+              </p>
+              <p>
+                <strong>Nama Penumpang:</strong> {row.nama}
+              </p>
+              <p>
+                <strong>Kereta:</strong> {row.Nama_kereta} ({row.Jenis_kereta})
+              </p>
+              <p>
+                <strong>Stasiun:</strong> {row.Stasiun_asal} →{" "}
+                {row.Stasiun_tujuan}
+              </p>
+              <p>
+                <strong>Jadwal:</strong> {row.Tanggal_Pergi} {row.Jam_berangkat}
+              </p>
+              <p>
+                <strong>Kursi:</strong> {row.Kursi}
+              </p>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      ) : (
+        <p>Tap kartu NFC untuk lihat data tiket...</p>
+      )}
     </div>
   );
-};
+}
 
-export default TiketViewer;
+export default App;

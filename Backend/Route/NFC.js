@@ -1,30 +1,46 @@
 import { NFC } from "nfc-pcsc";
 import fetch from "node-fetch";
 
-const nfc = new NFC();
+export function initNFC(wss) {
+  const nfc = new NFC();
 
-nfc.on("reader", reader => {
-  console.log(`${reader.reader.name} terhubung`);
+  nfc.on("reader", reader => {
+    // Matikan autoProcessing supaya gak coba baca ISO-DEP (APDU)
+    reader.autoProcessing = false;
 
-  reader.on("card", async card => {
-    console.log("UID kartu terdeteksi:", card.uid);
+    console.log("✅ Reader terhubung:", reader.reader.name);
 
-    // kirim ke backend online
-    try {
-      const response = await fetch("https://nfcinnovation-production.up.railway.app/api/tiket/scan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ uid: card.uid })
-      });
-      const data = await response.json();
-      console.log("Data tiket:", data.tiket);
-    } catch (err) {
-      console.error("Gagal kirim UID ke backend:", err);
-    }
+    reader.on("card", async card => {
+      console.log("💳 UID NFC:", card.uid);
+
+      try {
+        // Panggil API tiket di Railway
+        const response = await fetch("https://nfcinnovation-production.up.railway.app/api/tiket/scan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ uid: card.uid })
+        });
+
+        const data = await response.json();
+        console.log("🎟️ Data tiket:", data);
+
+        // Kirim hasilnya ke semua client WebSocket (frontend React)
+        wss.clients.forEach(client => {
+          if (client.readyState === 1) {
+            client.send(JSON.stringify(data));
+          }
+        });
+
+      } catch (err) {
+        console.error("❌ Gagal ambil data tiket:", err.message);
+      }
+    });
+
+    reader.on("error", err => console.error("⚠️ Reader error:", err));
+    reader.on("end", () => console.log("⚠️ Reader terputus"));
   });
 
-  reader.on("error", err => console.error("Reader error:", err));
-  reader.on("end", () => console.log("Reader dilepas"));
-});
-
-nfc.on("error", err => console.error("NFC error:", err));
+  nfc.on("error", err => {
+    console.error("❌ NFC error:", err);
+  });
+}
