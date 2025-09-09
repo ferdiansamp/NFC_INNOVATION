@@ -6,6 +6,7 @@ yarn-error.log*
 
 # React
 frontend/build/
+NFC.js
 
 # Environment files
 .env
