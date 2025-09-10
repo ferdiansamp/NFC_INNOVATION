@@ -4,7 +4,7 @@ import DB from "./DatabaseConnection.js";
 
 const router = express.Router();
 
-router.post("/scan", (req, res) => {
+router.post("/", (req, res) => {
   const { uid } = req.body;
   console.log("UID NFC diterima:", uid);
 
