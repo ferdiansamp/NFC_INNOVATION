@@ -20,12 +20,13 @@ const __dirname = Path.dirname(__filename);
 const frontendBuild = Path.join(__dirname, "../frontend/build");
 
 app.use(cors());
+app.use(express.json());
 
 app.use("/api/penumpang", penumpangRoutes);
-app.use("/api/pelanggan", pelangganRoutes);
+app.use("/api", pelangganRoutes);
 app.use("/api/tiket", Tiket);
 
-app.use(express.json());
+
 app.use(express.static(frontendBuild));
 app.get("*", (req, res) => {
   console.log("Serving React app for path:", req.url); // bisa lihat URL yang diakses

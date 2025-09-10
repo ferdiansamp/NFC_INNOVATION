@@ -11,5 +11,8 @@
     "nfc-pcsc": "^0.8.1",
     "node-fetch": "^3.3.2",
     "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "pcsclite": "^1.0.1"
   }
 }
