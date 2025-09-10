@@ -40,11 +40,18 @@ const server = app.listen(PORT, () => {
 });
 
 // WebSocket tanpa NFC
-export const wss = new WebSocketServer({ server });
-wss.on("connection", (ws) => {
-  console.log("🔗 Client WebSocket terhubung");
-  ws.on("close", () => console.log("❌ Client WebSocket terputus"));
+export const wss = new WebSocketServer({ noServer: true });
+
+server.on("upgrade", (request, socket, head) => {
+  if (request.url === "/ws") {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit("connection", ws, request);
+    });
+  } else {
+    socket.destroy();
+  }
 });
+
 if (process.env.ENABLE_NFC === "true") {
   const { initNFC } = await import("./reader/NFC.js");
   initNFC(wss);

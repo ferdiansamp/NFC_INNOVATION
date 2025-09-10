@@ -3,8 +3,6 @@ import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Header from "./Header";
-import DataPelanggan from "./DataPelanggan";
-import DataPenumpang from "./DataPenumpang";
 import TiketViewer from "./front_Tiket";
 
 
@@ -43,10 +41,10 @@ body{
       <GlobalStyle />
       <div>
         <Header />
-        <DataPenumpang />
+  
           <TiketViewer />
 
-        <DataPelanggan />
+     
         <TombolKereta>
 
               <Link to="/kereta">

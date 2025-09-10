@@ -7,8 +7,8 @@ function Front_Tiket() {
     // Koneksi ke backend WebSocket (ubah host/port sesuai server-mu)
     const ws = new WebSocket(
       process.env.NODE_ENV === "production"
-        ? "wss://nfcinnovation-production.up.railway.app"
-        : "ws://localhost:5000"
+        ? "wss://nfcinnovation-production.up.railway.app/ws"
+        : "ws://localhost:5000/ws"
     );
 
     ws.onopen = () => {
@@ -16,9 +16,14 @@ function Front_Tiket() {
     };
 
     ws.onmessage = (event) => {
-      console.log("📩 Data tiket diterima:", event.data);
-      const data = JSON.parse(event.data);
-      setTiket(data);
+      console.log("📩 Raw WebSocket message:", event.data);
+      try {
+        const data = JSON.parse(event.data);
+        console.log("✅ Parsed data:", data);
+        setTiket(data);
+      } catch (e) {
+        console.error("⚠️ Gagal parse JSON:", e.message);
+      }
     };
 
     ws.onerror = (err) => {
