@@ -8,7 +8,7 @@ import "./Route/DatabaseConnection.js";
 import penumpangRoutes from "./Route/Penumpang.js";
 import pelangganRoutes from "./Route/Pelanggan.js";
 import Tiket from "./Route/Tiket.js";
-import {initNFC} from "./reader/NFC.js";
+
 
 import Path from "path";
 import { fileURLToPath } from "url";
@@ -45,4 +45,7 @@ wss.on("connection", (ws) => {
   console.log("🔗 Client WebSocket terhubung");
   ws.on("close", () => console.log("❌ Client WebSocket terputus"));
 });
-initNFC(wss); // inisialisasi NFC
+if (process.env.ENABLE_NFC === "true") {
+  const { initNFC } = await import("./reader/NFC.js");
+  initNFC(wss);
+}

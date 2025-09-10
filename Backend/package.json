@@ -37,8 +37,8 @@
     "styled-components": "^6.1.19",
     "ws": "^8.18.3"
   },
-  "optionalDependencies": {
+  "description": "",
+  "devDependencies": {
     "@pokusew/pcsclite": "^0.6.0"
-  },
-  "description": ""
+  }
 }
