@@ -10,3 +10,10 @@ NFC.js
 
 # Environment files
 .env
+
+
+reader/
+reader-package.json
+
+/node_modules
+/package-lock.json

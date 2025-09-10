@@ -1,14 +1,14 @@
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
+import express from "express";
+import { WebSocketServer } from "ws";
 
 import "./Route/DatabaseConnection.js";
-import express from "express";
 import penumpangRoutes from "./Route/Penumpang.js";
 import pelangganRoutes from "./Route/Pelanggan.js";
 import Tiket from "./Route/Tiket.js";
-import { initNFC } from "./Route/NFC.js";
-import { WebSocketServer } from "ws";
+import {initNFC} from "./reader/NFC.js";
 
 import Path from "path";
 import { fileURLToPath } from "url";
@@ -22,29 +22,27 @@ const frontendBuild = Path.join(__dirname, "../frontend/build");
 app.use(cors());
 app.use(express.json());
 
+// API routes
 app.use("/api/penumpang", penumpangRoutes);
 app.use("/api/pelanggan", pelangganRoutes);
 app.use("/api/tiket", Tiket);
 
-
+// React build
 app.use(express.static(frontendBuild));
 app.get("*", (req, res) => {
-  console.log("Serving React app for path:", req.url); // bisa lihat URL yang diakses
   res.sendFile(Path.join(frontendBuild, "index.html"));
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
+  console.log(`✅ Server berjalan di http://localhost:${PORT}`);
 });
 
-
-
-const wss = new WebSocketServer({ server });
-initNFC(wss);
+// WebSocket tanpa NFC
+export const wss = new WebSocketServer({ server });
 wss.on("connection", (ws) => {
   console.log("🔗 Client WebSocket terhubung");
   ws.on("close", () => console.log("❌ Client WebSocket terputus"));
 });
-wss.on("error", (err) => {
-  console.error("⚠️ WebSocket error:", err);  })
+initNFC(wss); // inisialisasi NFC

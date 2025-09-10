@@ -1,6 +1,7 @@
 import express from "express";
 import DB from "./DatabaseConnection.js";
 
+
 const router = express.Router();
 
 router.post("/scan", (req, res) => {

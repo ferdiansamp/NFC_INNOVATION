@@ -5,7 +5,11 @@ function Front_Tiket() {
 
   useEffect(() => {
     // Koneksi ke backend WebSocket (ubah host/port sesuai server-mu)
-    const ws = new WebSocket("ws://localhost:5000");
+    const ws = new WebSocket(
+      process.env.NODE_ENV === "production"
+        ? "wss://nfcinnovation-production.up.railway.app"
+        : "ws://localhost:5000"
+    );
 
     ws.onopen = () => {
       console.log("🔗 Terhubung ke WebSocket backend");
@@ -57,7 +61,8 @@ function Front_Tiket() {
                 <strong>Kereta:</strong> {row.Nama_kereta} ({row.Jenis_kereta})
               </p>
               <p>
-                <strong>Stasiun:</strong> {row.Stasiun_asal} → {row.Stasiun_tujuan}
+                <strong>Stasiun:</strong> {row.Stasiun_asal} →{" "}
+                {row.Stasiun_tujuan}
               </p>
               <p>
                 <strong>Jadwal Pergi:</strong> {row.Tanggal_Pergi} |{" "}
