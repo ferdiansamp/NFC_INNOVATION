@@ -31,14 +31,15 @@
     "express-rate-limit": "^6.11.2",
     "helmet": "^8.1.0",
     "mysql2": "^3.14.4",
-    "nfc-pcsc": "^0.8.1",
-    "node-fetch": "^3.3.2",
+
     "react-is": "^18.3.1",
     "styled-components": "^6.1.19",
     "ws": "^8.18.3"
   },
   "description": "",
   "devDependencies": {
-    "@pokusew/pcsclite": "^0.6.0"
+    "@pokusew/pcsclite": "^0.6.0",
+        "nfc-pcsc": "^0.8.1",
+    "node-fetch": "^3.3.2"
   }
 }
