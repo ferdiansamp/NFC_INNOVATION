@@ -2,7 +2,8 @@
   "name": "nfc_innovation_root",
   "private": true,
   "scripts": {
-    "install": "cd Backend && npm install --omit=dev --omit=optional",
+    "install": "cd Backend && npm install --omit=dev --omit=optional && cd ../frontend && npm install --omit=dev --omit=optional",
+    "build": "cd frontend && npm run build",
     "start": "cd Backend && npm start"
   }
 }
