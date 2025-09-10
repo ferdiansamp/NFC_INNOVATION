@@ -23,7 +23,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/penumpang", penumpangRoutes);
-app.use("/api", pelangganRoutes);
+app.use("/api/pelanggan", pelangganRoutes);
 app.use("/api/tiket", Tiket);
 
 
