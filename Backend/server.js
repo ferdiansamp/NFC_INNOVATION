@@ -9,7 +9,8 @@ import penumpangRoutes from "./Route/Penumpang.js";
 import pelangganRoutes from "./Route/Pelanggan.js";
 import Tiket from "./Route/Tiket.js";
 import nfcRouter from "./Route/NFC.js";
-import { startPythonLoop } from "./reader/PythonNFC.js";
+// import { startPythonLoop } from "./reader/PythonNFC.js";
+import tiketProxy from "./Route/TiketProxy.js";
 
 import Path from "path";
 import { fileURLToPath } from "url";
@@ -27,6 +28,7 @@ app.use("/api/penumpang", penumpangRoutes);
 app.use("/api/pelanggan", pelangganRoutes);
 app.use("/api/tiket", Tiket);
 app.use("/api/nfc", nfcRouter);
+app.use("/proxy/tiket", tiketProxy);
 
 // React build
 app.use(express.static(frontendBuild));
