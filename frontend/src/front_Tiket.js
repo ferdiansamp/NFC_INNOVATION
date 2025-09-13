@@ -6,6 +6,20 @@ function Front_Tiket() {
   const [kodeTiket, setKodeTiket] = useState("");
   const [listTiket, setListTiket] = useState([]);
 
+  // 🔹 fungsi sync mode ke backend
+  const setBackendMode = async (newMode) => {
+    try {
+      await fetch("http://localhost:5000/api/nfc/mode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: newMode }),
+      });
+      setMode(newMode);
+    } catch (err) {
+      console.error("❌ Gagal set mode:", err);
+    }
+  };
+
   // WebSocket listen UID
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:5000/ws");
@@ -15,9 +29,9 @@ function Front_Tiket() {
         const data = JSON.parse(event.data);
         console.log("📩 UID diterima dari WebSocket:", data);
 
-        if (data.uid) {
-          console.log("🚦 Akan fetch ke Railway dengan UID:", data.uid);
-          fetch("https://nfcinnovation-production.up.railway.app/api/tiket/byUID", {
+        if (data.uid && mode === "read") {
+          console.log("🚦 Akan fetch ke backend dengan UID:", data.uid);
+          fetch("http://localhost:5000/api/tiket/byUID", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ uid: data.uid }),
@@ -31,12 +45,12 @@ function Front_Tiket() {
       }
     };
     return () => ws.close();
-  }, []);
+  }, [mode]); // <- ikut mode supaya WS hanya aktif sesuai mode
 
   // Fetch list tiket untuk WRITE
   useEffect(() => {
     if (mode === "write") {
-      fetch("https://nfcinnovation-production.up.railway.app/api/tiket/list")
+      fetch("http://localhost:5000/api/tiket/list")
         .then((res) => res.json())
         .then((data) => {
           console.log("📋 List tiket:", data);
@@ -65,10 +79,10 @@ function Front_Tiket() {
     <div style={{ padding: 20 }}>
       <h1>🚄 Sistem Tiket NFC</h1>
       <div>
-        <button onClick={() => setMode("read")} disabled={mode === "read"}>
+        <button onClick={() => setBackendMode("read")} disabled={mode === "read"}>
           📖 Read
         </button>
-        <button onClick={() => setMode("write")} disabled={mode === "write"}>
+        <button onClick={() => setBackendMode("write")} disabled={mode === "write"}>
           ✍️ Write
         </button>
       </div>

@@ -1,42 +1,44 @@
-// // Backend/Route/TiketProxy.js
-// import express from "express";
-// import fetch from "node-fetch";
+// Backend/Route/TiketProxy.js
+import express from "express";
+import fetch from "node-fetch";
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.all("/*", async (req, res) => {
-//   try {
-//     const url =
-//       "https://nfcinnovation-production.up.railway.app/api/tiket" + req.path;
-//     console.log("🔗 Proxying to:", url);
+router.all("/*", async (req, res) => {
+  try {
+    const targetUrl = "https://nfcinnovation-production.up.railway.app/api/tiket" + req.path;
+    console.log("🔗 Proxying to:", targetUrl);
 
-//     const options = {
-//       method: req.method,
-//       headers: {
-//         "Content-Type": "application/json",
-//         "Host": "nfcinnovation-production.up.railway.app" // ✅ fix host header
-//       },
-//     };
+    const options = {
+      method: req.method,
+      headers: {
+        ...req.headers,            // forward semua header asli
+        host: undefined,           // biar nggak paksa override Host
+        origin: undefined,         // jangan paksa origin
+      },
+    };
 
-//     if (req.method !== "GET") {
-//       options.body = JSON.stringify(req.body);
-//     }
+    // hanya kirim body kalau bukan GET/HEAD
+    if (!["GET", "HEAD"].includes(req.method)) {
+      options.body = JSON.stringify(req.body);
+      options.headers["Content-Type"] = "application/json";
+    }
 
-//     const response = await fetch(url, options);
+    const response = await fetch(targetUrl, options);
 
-//     // Debug response
-//     const text = await response.text();
-//     console.log("📥 Response dari Railway:", text);
+    const text = await response.text();
+    console.log("📥 Response dari Railway:", text);
 
-//     try {
-//       const data = JSON.parse(text);
-//       res.json(data);
-//     } catch (err) {
-//       res.status(500).json({ error: "Invalid JSON dari Railway", raw: text });
-//     }
-//   } catch (e) {
-//     res.status(500).json({ error: e.message });
-//   }
-// });
+    try {
+      const data = JSON.parse(text);
+      res.status(response.status).json(data);
+    } catch {
+      res.status(response.status).send(text);
+    }
+  } catch (err) {
+    console.error("❌ Proxy error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
 
-// export default router;
+export default router;
