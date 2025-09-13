@@ -2,8 +2,14 @@
   "name": "nfc_innovation_root",
   "private": true,
   "scripts": {
-    "install": "cd Backend && npm install --omit=dev --omit=optional && cd ../frontend && npm install --omit=dev --omit=optional",
-    "build": "cd frontend && npm run build",
-    "start": "cd Backend && npm start"
+  "install": "cd Backend && npm install && cd ../frontend && npm install",
+  "build": "cd frontend && npm run build",
+  "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+  "start-backend": "cd Backend && npm start",
+  "start-frontend": "cd frontend && npm start"
+}
+,
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
