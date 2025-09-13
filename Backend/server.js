@@ -39,17 +39,13 @@ const server = app.listen(PORT, () => {
   console.log(`✅ Server berjalan di http://localhost:${PORT}`);
 });
 
-// WebSocket tanpa NFC
-export const wss = new WebSocketServer({ noServer: true });
 
-server.on("upgrade", (request, socket, head) => {
-  if (request.url === "/ws") {
-    wss.handleUpgrade(request, socket, head, (ws) => {
-      wss.emit("connection", ws, request);
-    });
-  } else {
-    socket.destroy();
-  }
+// WebSocket tanpa NFC
+ const wss = new WebSocketServer({ server, path: "/ws" });
+
+wss.on("connection", (ws) => {
+  console.log("🔗 Client WebSocket terhubung");
+  ws.on("close", () => console.log("❌ Client WebSocket terputus"));
 });
 
 if (process.env.ENABLE_NFC === "true") {
